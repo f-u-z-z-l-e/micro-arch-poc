@@ -1,6 +1,6 @@
-package ch.fuzzle.gateway.scheduler;
+package ch.fuzzle.beta.scheduler;
 
-import ch.fuzzle.gateway.gateway.KafkaProducer;
+import ch.fuzzle.beta.gateway.KafkaProducer;
 import ch.fuzzle.model.Info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package ch.fuzzle.gateway.configuration;
+package ch.fuzzle.beta.configuration;
 
 import ch.fuzzle.model.Info;
 import org.apache.kafka.clients.producer.ProducerConfig;

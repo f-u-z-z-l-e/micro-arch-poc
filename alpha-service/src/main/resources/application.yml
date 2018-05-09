@@ -1,4 +1,6 @@
 kafka:
-  bootstrap-servers: scheduler:9092
+  bootstrap-servers: kafka:9092
   topics:
     info: info
+server:
+  port: 8081
