@@ -1,0 +1,9 @@
+group = 'ch.fuzzle.gamma'
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
+    compile group: 'org.springframework.kafka', name: 'spring-kafka'
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('io.projectreactor:reactor-test')
+}
