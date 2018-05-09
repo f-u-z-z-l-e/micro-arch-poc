@@ -1,2 +1,2 @@
 kafka:
-  bootstrap-servers: kafka:9092
+  bootstrap-servers: scheduler:9092

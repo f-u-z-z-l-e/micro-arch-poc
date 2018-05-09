@@ -40,7 +40,6 @@ public class Info {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, mesage);
     }
 
@@ -50,5 +49,16 @@ public class Info {
                 "id='" + id + '\'' +
                 ", mesage='" + mesage + '\'' +
                 '}';
+    }
+
+    public static class Builder {
+        private Info info;
+
+        public static Info info(String id, String message) {
+            Info info = new Info();
+            info.setId(id);
+            info.setMesage(message);
+            return info;
+        }
     }
 }

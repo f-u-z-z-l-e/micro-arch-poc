@@ -6,7 +6,9 @@ apply plugin: 'io.spring.dependency-management'
 dependencies {
     compile project(':model')
 
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb-reactive'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-quartz'
     compile group: 'org.springframework.kafka', name: 'spring-kafka'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
