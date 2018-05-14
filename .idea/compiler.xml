@@ -6,10 +6,6 @@
       <module name="alpha-service_test" target="1.8" />
       <module name="beta-service_main" target="1.8" />
       <module name="beta-service_test" target="1.8" />
-      <module name="delta-service_main" target="1.8" />
-      <module name="delta-service_test" target="1.8" />
-      <module name="gamma-service_main" target="1.8" />
-      <module name="gamma-service_test" target="1.8" />
       <module name="gateway-service_main" target="1.8" />
       <module name="gateway-service_test" target="1.8" />
       <module name="micro-arch-poc_main" target="1.8" />

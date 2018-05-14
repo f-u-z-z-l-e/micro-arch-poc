@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="alpha" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="alpha-service_main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.alpha.Application" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method />
+  </configuration>
+</component>
