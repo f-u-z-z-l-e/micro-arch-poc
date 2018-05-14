@@ -1,27 +1,47 @@
 version: '2.1'
 services:
- zookeeper:
-  container_name: zookeeper
-  image: wurstmeister/zookeeper
-  networks:
-   kafka_net:
-    ipv4_address: 172.20.1.10
-  expose:
-    - 2181
+  zookeeper:
+    container_name: zookeeper
+    image: wurstmeister/zookeeper
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.10
+    expose:
+      - 2181
 
- kafka:
-  container_name: kafka
-  image: wurstmeister/kafka
-  networks:
-   kafka_net:
-    ipv4_address: 172.20.1.20
-  ports:
-   - 9092:9092
-  environment:
-   KAFKA_ADVERTISED_HOST_NAME: kafka
-   KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#  volumes:
-#   - /var/run/docker.sock:/var/run/docker.sock
+  kafka:
+    container_name: kafka
+    image: wurstmeister/kafka
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.20
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  gateway:
+    container_name: gateway
+    build: gateway-service/build/docker/.
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.30
+
+  alpha:
+    container_name: alpha
+    build: alpha-service/build/docker/.
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.31
+
+  beta:
+    container_name: beta
+    build: beta-service/build/docker/.
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.32
+
 networks:
  kafka_net:
   driver: bridge

@@ -20,3 +20,6 @@ subprojects {
 task wrapper(type: Wrapper) {
     gradleVersion = '4.7'
 }
+
+task prepareDocker
+prepareDocker.dependsOn('alpha-service:copyDocker', 'beta-service:copyDocker', 'gateway-service:copyDocker')
