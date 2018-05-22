@@ -19,7 +19,7 @@ public class MessagePublisher {
 
     @Scheduled(fixedDelay = 5000)
     public void sendMessage() {
-        Info info = Info.Builder.info(ZonedDateTime.now().toString(), "scheduled message");
+        Info info = new Info(ZonedDateTime.now().toString(), "scheduled message");
 
         logger.info(info.toString());
         kafkaProducer.sendMessage(info);

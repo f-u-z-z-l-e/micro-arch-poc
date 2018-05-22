@@ -6,9 +6,9 @@ apply plugin: 'io.spring.dependency-management'
 dependencies {
     compile project(':model')
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
     compile group: 'org.springframework.kafka', name: 'spring-kafka'
-    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-cassandra-reactive'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-cassandra-reactive'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')

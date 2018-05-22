@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.concurrent.ListenableFuture;
 
 @Component
 public class KafkaProducer {
@@ -22,7 +24,7 @@ public class KafkaProducer {
     public void sendMessage(Info info) {
         Assert.notNull(info, "Input cannot be null");
         logger.info("Sending message: " + info.toString());
-        kafkaTemplate.send(infoTopic, info);
+        ListenableFuture<SendResult<String, Info>> future = kafkaTemplate.send(infoTopic, info);
     }
 
 }

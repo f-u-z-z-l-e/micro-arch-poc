@@ -4,3 +4,10 @@ kafka:
     info: info
 server:
   port: 8081
+
+spring:
+  data:
+    cassandra:
+      keyspace-name: info
+      schema-action: create_if_not_exists
+      contact-points: cassandra
