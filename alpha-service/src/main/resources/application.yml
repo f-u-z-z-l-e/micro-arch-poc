@@ -1,13 +1,13 @@
 kafka:
   bootstrap-servers: kafka:9092
   topics:
-    info: info
+    account: account
 server:
   port: 8081
 
-spring:
-  data:
-    cassandra:
-      keyspace-name: info
-      schema-action: create_if_not_exists
-      contact-points: cassandra
+#spring:
+#  data:
+#    cassandra:
+#      keyspace-name: info
+#      schema-action: create_if_not_exists
+#      contact-points: cassandra

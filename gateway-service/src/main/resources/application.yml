@@ -1,6 +1,6 @@
 kafka:
   bootstrap-servers: kafka:9092
   topics:
-    info: info
+    account: account
 server:
   port: 8080

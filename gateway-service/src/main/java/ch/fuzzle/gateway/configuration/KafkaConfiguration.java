@@ -1,6 +1,8 @@
 package ch.fuzzle.gateway.configuration;
 
-import ch.fuzzle.model.Info;
+import ch.fuzzle.event.account.AccountEvent;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +14,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @EnableKafka
 @Configuration
 public class KafkaConfiguration {
@@ -23,7 +22,7 @@ public class KafkaConfiguration {
     private String bootstrapServer;
 
     @Bean
-    public ProducerFactory<String, Info> producerFactory() {
+    public ProducerFactory<String, AccountEvent> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
@@ -37,7 +36,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, Info> kafkaTemplate() {
+    public KafkaTemplate<String, AccountEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

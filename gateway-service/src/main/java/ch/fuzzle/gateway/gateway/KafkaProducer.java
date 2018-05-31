@@ -1,8 +1,7 @@
 package ch.fuzzle.gateway.gateway;
 
-import ch.fuzzle.model.Info;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ch.fuzzle.event.account.AccountEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -11,20 +10,20 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.concurrent.ListenableFuture;
 
+@Slf4j
 @Component
 public class KafkaProducer {
-    private static final Logger logger = LoggerFactory.getLogger(KafkaProducer.class);
 
     @Autowired
-    private KafkaTemplate<String, Info> kafkaTemplate;
+    private KafkaTemplate<String, AccountEvent> kafkaTemplate;
 
-    @Value("${kafka.topics.info}")
-    private String infoTopic;
+    @Value("${kafka.topics.account}")
+    private String accountTopic;
 
-    public void sendMessage(Info info) {
-        Assert.notNull(info, "Input cannot be null");
-        logger.info("Sending message: " + info.toString());
-        ListenableFuture<SendResult<String, Info>> future = kafkaTemplate.send(infoTopic, info);
+    public void sendMessage(AccountEvent accountEvent) {
+        Assert.notNull(accountEvent, "Input cannot be null");
+        log.info("Sending message: " + accountEvent.toString());
+        ListenableFuture<SendResult<String, AccountEvent>> future = kafkaTemplate.send(accountTopic, accountEvent);
     }
 
 }
