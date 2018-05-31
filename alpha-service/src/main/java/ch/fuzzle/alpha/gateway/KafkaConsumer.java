@@ -1,8 +1,10 @@
 package ch.fuzzle.alpha.gateway;
 
+import ch.fuzzle.alpha.service.AccountService;
 import ch.fuzzle.event.account.AccountEvent;
 import ch.fuzzle.event.account.AccountEventType;
 import ch.fuzzle.model.AccountRequest;
+import ch.fuzzle.model.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import java.io.IOException;
@@ -15,10 +17,13 @@ import org.springframework.stereotype.Component;
 public class KafkaConsumer {
 
     private ObjectMapper objectMapper;
+    private AccountService accountService;
 
-    public KafkaConsumer(ObjectMapper objectMapper) {
+    public KafkaConsumer(ObjectMapper objectMapper, AccountService accountService) {
         this.objectMapper = objectMapper;
+        this.accountService = accountService;
     }
+
 
     @KafkaListener(topics = "${kafka.topics.account}", groupId = "consumer-group")
     public void listen(AccountEvent accountEvent) {
@@ -27,8 +32,13 @@ public class KafkaConsumer {
         if (AccountEventType.ACCOUNT_CREATED == accountEvent.getType()) {
             ObjectReader objectReader = objectMapper.readerFor(AccountRequest.class);
             try {
-                AccountRequest o = objectReader.readValue(accountEvent.getData());
-                log.info(o.toString());
+                AccountRequest accountRequest = objectReader.readValue(accountEvent.getData());
+                Person accountHolder = accountRequest.getAccountHolder();
+
+                if (accountService.findByName(accountHolder.getFirstname(), accountHolder.getLastname()) == null) {
+                    accountService.add(accountRequest);
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

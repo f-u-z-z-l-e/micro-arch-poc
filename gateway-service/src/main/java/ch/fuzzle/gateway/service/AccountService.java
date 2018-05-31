@@ -18,23 +18,38 @@ public class AccountService {
 
     private KafkaProducer kafkaProducer;
     private ObjectMapper objectMapper;
+    private ValidationService validationService;
 
-    public AccountService(KafkaProducer kafkaProducer) {
+    public AccountService(KafkaProducer kafkaProducer, ObjectMapper objectMapper, ValidationService validationService) {
         this.kafkaProducer = kafkaProducer;
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = objectMapper;
+        this.validationService = validationService;
     }
 
     public UUID createAccount(AccountRequest request) {
         UUID eventId = UUID.randomUUID();
+        // validate request
+        String firstname = request.getAccountHolder().getFirstname();
+        String lastname = request.getAccountHolder().getLastname();
 
-        AccountEvent accountEvent = new AccountEvent();
-        accountEvent.setType(ACCOUNT_CREATED);
-        accountEvent.setEventId(eventId);
-        accountEvent.setTimestamp(ZonedDateTime.now().toString());
-        accountEvent.setData(convert(request));
+        if (validationService.accountExists(firstname, lastname)) {
+            // an account already exists with this name
+            // throw some kind of exception here!
+            log.info("An account for {} - {} already exists!", firstname, lastname);
 
-        kafkaProducer.sendMessage(accountEvent);
+        } else {
+            // prepare event
+            AccountEvent accountEvent = new AccountEvent();
+            accountEvent.setType(ACCOUNT_CREATED);
+            accountEvent.setEventId(eventId);
+            accountEvent.setTimestamp(ZonedDateTime.now().toString());
+            accountEvent.setData(convert(request));
 
+            // broadcast accountEvent
+            kafkaProducer.sendMessage(accountEvent);
+
+        }
+        // return uuid to caller
         return eventId;
     }
 
@@ -47,4 +62,5 @@ public class AccountService {
 
         return "";
     }
+
 }
