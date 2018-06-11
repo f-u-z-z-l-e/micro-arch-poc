@@ -2,8 +2,8 @@ package ch.fuzzle.alpha.gateway;
 
 import ch.fuzzle.alpha.service.AccountService;
 import ch.fuzzle.event.account.AccountEvent;
-import ch.fuzzle.event.account.AccountEventType;
 import ch.fuzzle.model.AccountRequest;
+import ch.fuzzle.model.BalanceRequest;
 import ch.fuzzle.model.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -29,19 +29,70 @@ public class KafkaConsumer {
     public void listen(AccountEvent accountEvent) {
         log.info("Received message: " + accountEvent);
 
-        if (AccountEventType.ACCOUNT_CREATED == accountEvent.getType()) {
-            ObjectReader objectReader = objectMapper.readerFor(AccountRequest.class);
-            try {
-                AccountRequest accountRequest = objectReader.readValue(accountEvent.getData());
-                Person accountHolder = accountRequest.getAccountHolder();
+        switch (accountEvent.getType()) {
+            case ACCOUNT_CREATED:
+                handleAccountCreatedEvent(accountEvent);
+                break;
+            case BALANCE_ADDED:
+                handleBalanceAddedEvent(accountEvent);
+                break;
+            case BALANCE_WITHDRAWN:
+                handleBalanceWithdrawnEvent(accountEvent);
+                break;
+            default:
+                log.info("Unhandled event: {}", accountEvent.toString());
+        }
 
-                if (accountService.findByName(accountHolder.getFirstname(), accountHolder.getLastname()) == null) {
-                    accountService.add(accountRequest);
-                }
+    }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+    private void handleBalanceAddedEvent(AccountEvent accountEvent) {
+        ObjectReader objectReader = objectMapper.readerFor(BalanceRequest.class);
+
+        try {
+
+            BalanceRequest balanceRequest = objectReader.readValue(accountEvent.getData());
+
+            if (accountService.findByAccountId(accountEvent.getAccountId()) != null) {
+                accountService.addBalance(accountEvent.getAccountId(), balanceRequest);
             }
+
+        } catch (IOException e) {
+            log.error("an error occurred reading event data: ", e);
+        }
+
+    }
+
+    private void handleBalanceWithdrawnEvent(AccountEvent accountEvent) {
+        ObjectReader objectReader = objectMapper.readerFor(BalanceRequest.class);
+
+        try {
+
+            BalanceRequest balanceRequest = objectReader.readValue(accountEvent.getData());
+
+            if (accountService.findByAccountId(accountEvent.getAccountId()) != null) {
+                accountService.withdrawBalance(accountEvent.getAccountId(), balanceRequest);
+            }
+
+        } catch (IOException e) {
+            log.error("an error occurred reading event data: ", e);
+        }
+
+    }
+
+    private void handleAccountCreatedEvent(AccountEvent accountEvent) {
+        ObjectReader objectReader = objectMapper.readerFor(AccountRequest.class);
+        try {
+            AccountRequest accountRequest = objectReader.readValue(accountEvent.getData());
+            Person accountHolder = accountRequest.getAccountHolder();
+
+            if (accountService.findByName(accountHolder.getFirstname(), accountHolder.getLastname()) == null) {
+                accountService.addAccount(accountRequest);
+            } else {
+                log.info("Omit creating account for {} - {}, as one already exists", accountHolder.getFirstname(), accountHolder.getLastname());
+            }
+
+        } catch (IOException e) {
+            log.error("an error occurred reading event data: ", e);
         }
     }
 

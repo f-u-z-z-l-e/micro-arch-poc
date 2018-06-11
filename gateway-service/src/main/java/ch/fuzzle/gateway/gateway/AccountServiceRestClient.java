@@ -24,7 +24,7 @@ public class AccountServiceRestClient {
 
 
     public AccountRequest findByName(String firstname, String lastname) {
-        log.info("Requesting account for = '{} {}' from account-service.", firstname, lastname);
+        log.info("Requesting account for '{} {}' from account-service.", firstname, lastname);
         String url = getUriBuilder().path("/account/{firstname}-{lastname}").buildAndExpand(firstname, lastname).toUriString();
 
         try {

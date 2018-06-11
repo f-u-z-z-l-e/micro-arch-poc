@@ -4,6 +4,7 @@ import ch.fuzzle.event.account.AccountEvent;
 import ch.fuzzle.gateway.gateway.AccountServiceRestClient;
 import ch.fuzzle.gateway.gateway.KafkaProducer;
 import ch.fuzzle.model.AccountRequest;
+import ch.fuzzle.model.BalanceRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.ZonedDateTime;
@@ -12,7 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import static ch.fuzzle.event.account.AccountEventType.ACCOUNT_CREATED;
+import static ch.fuzzle.event.account.AccountEventType.*;
+import static ch.fuzzle.model.BalanceOperation.ADD;
 
 @Slf4j
 @Service
@@ -42,6 +44,7 @@ public class AccountService {
             accountEvent.setType(ACCOUNT_CREATED);
             accountEvent.setEventId(eventId);
             accountEvent.setTimestamp(ZonedDateTime.now().toString());
+            accountEvent.setAccountId(firstname + "-" + lastname);
             accountEvent.setData(convert(request));
 
             // broadcast accountEvent
@@ -53,7 +56,7 @@ public class AccountService {
         return eventId;
     }
 
-    private String convert(AccountRequest request) {
+    private String convert(Object request) {
         try {
             return objectMapper.writeValueAsString(request);
         } catch (JsonProcessingException e) {
@@ -71,5 +74,27 @@ public class AccountService {
             return null;
         }
 
+    }
+
+    public UUID modifiyBalance(String firstname, String lastname, BalanceRequest request) {
+        UUID eventId = UUID.randomUUID();
+
+        // validate request
+        if (!validationService.accountExists(firstname, lastname)) {
+            return null;
+        }
+
+        // prepare event
+        AccountEvent accountEvent = new AccountEvent();
+        accountEvent.setType(request.getOperation() == ADD ? BALANCE_ADDED : BALANCE_WITHDRAWN);
+        accountEvent.setEventId(eventId);
+        accountEvent.setTimestamp(ZonedDateTime.now().toString());
+        accountEvent.setAccountId(firstname + "-" + lastname);
+        accountEvent.setData(convert(request));
+
+        // broadcast accountEvent
+        kafkaProducer.sendMessage(accountEvent);
+
+        return eventId;
     }
 }

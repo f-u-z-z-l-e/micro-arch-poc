@@ -2,6 +2,7 @@ package ch.fuzzle.gateway.controller;
 
 import ch.fuzzle.gateway.service.AccountService;
 import ch.fuzzle.model.AccountRequest;
+import ch.fuzzle.model.BalanceRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -29,7 +30,7 @@ public class AccountController {
 
     @ApiOperation(value = "create account", notes = "Creates an account.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 500, message = "Internal Server Error")})
     @PostMapping(value = "/account", produces = APPLICATION_JSON_UTF8_VALUE)
@@ -50,10 +51,28 @@ public class AccountController {
                 .toUri();
     }
 
+    @ApiOperation(value = "modify balance of an account", notes = "increase or decreases balance of existing account.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+    @PostMapping(value = "/account/{firstname}-{lastname}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> addBalance(@PathVariable(value = "firstname") String firstname,
+                                           @PathVariable(value = "lastname") String lastname,
+                                           @RequestBody BalanceRequest request) {
 
-    @GetMapping(value = "/account/{firstname}-{lastname}", produces = APPLICATION_JSON_UTF8_VALUE)
+        UUID eventId = accountService.modifiyBalance(firstname, lastname, request);
+
+        if (eventId == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        return ResponseEntity.created(createResponseUriLocation(eventId)).build();
+    }
+
     @ResponseBody
     @ResponseStatus(value = OK)
+    @GetMapping(value = "/account/{firstname}-{lastname}", produces = APPLICATION_JSON_UTF8_VALUE)
     public AccountRequest findByName(@PathVariable(value = "firstname") String firstname, @PathVariable(value = "lastname") String lastname) {
         AccountRequest accountRequest = accountService.findByName(firstname, lastname);
         if (accountRequest == null) {

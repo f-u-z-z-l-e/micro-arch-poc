@@ -25,7 +25,7 @@ public class ValidationService {
         Person accountHolder = accountRequest.getAccountHolder();
 
         if (firstname.equals(accountHolder.getFirstname()) && lastname.equals(accountHolder.getLastname())) {
-            log.info("An account for {} - {} already exists!", firstname, lastname);
+            log.info("An account for {} - {} exists.", firstname, lastname);
             return true;
         }
 

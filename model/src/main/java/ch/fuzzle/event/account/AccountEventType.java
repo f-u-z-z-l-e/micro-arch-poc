@@ -7,6 +7,6 @@ public enum AccountEventType {
     ACCOUNT_REACTIVATED,
     ACCOUNT_CLOSED,
     BALANCE_ADDED,
-    BALABCE_WITHDRAWN;
+    BALANCE_WITHDRAWN
 
 }

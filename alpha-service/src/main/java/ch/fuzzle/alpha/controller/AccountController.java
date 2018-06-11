@@ -2,6 +2,7 @@ package ch.fuzzle.alpha.controller;
 
 import ch.fuzzle.alpha.service.AccountService;
 import ch.fuzzle.model.AccountRequest;
+import java.math.BigDecimal;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -26,6 +27,17 @@ class AccountController {
         }
 
         return accountRequest;
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/balance/{firstname}-{lastname}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public BigDecimal getBalance(@PathVariable String firstname, @PathVariable String lastname) {
+        BigDecimal balance = service.getBalance(firstname + "-" + lastname);
+        if (balance == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        return balance;
     }
 
 }
