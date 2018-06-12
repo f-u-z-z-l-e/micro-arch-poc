@@ -9,6 +9,7 @@ dependencies {
 //    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.kafka', name: 'spring-kafka'
+    compile group: 'org.apache.kafka', name: 'kafka-streams'
 //    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-cassandra-reactive'
 
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'

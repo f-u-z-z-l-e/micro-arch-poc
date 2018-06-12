@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -18,13 +19,13 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 @Configuration
 public class KafkaConfiguration {
 
-    @Value("${kafka.bootstrap-servers}")
-    private String bootstrapServer;
+    @Autowired
+    private KafkaProperties kafkaProperties;
 
     @Bean
     public ConsumerFactory<String, AccountEvent> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServer);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "s1pGroup");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 100);
@@ -39,4 +40,5 @@ public class KafkaConfiguration {
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
+
 }

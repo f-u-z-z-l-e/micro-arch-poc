@@ -61,7 +61,7 @@ public class AccountController {
                                            @PathVariable(value = "lastname") String lastname,
                                            @RequestBody BalanceRequest request) {
 
-        UUID eventId = accountService.modifiyBalance(firstname, lastname, request);
+        UUID eventId = accountService.modifyBalance(firstname, lastname, request);
 
         if (eventId == null) {
             throw new ResourceNotFoundException();

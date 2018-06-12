@@ -76,7 +76,7 @@ public class AccountService {
 
     }
 
-    public UUID modifiyBalance(String firstname, String lastname, BalanceRequest request) {
+    public UUID modifyBalance(String firstname, String lastname, BalanceRequest request) {
         UUID eventId = UUID.randomUUID();
 
         // validate request
