@@ -1,4 +1,4 @@
-package ch.fuzzle.alpha.configuration;
+package ch.fuzzle.account.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;

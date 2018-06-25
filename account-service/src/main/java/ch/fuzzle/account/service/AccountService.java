@@ -1,4 +1,4 @@
-package ch.fuzzle.alpha.service;
+package ch.fuzzle.account.service;
 
 import ch.fuzzle.model.AccountRequest;
 import ch.fuzzle.model.BalanceRequest;

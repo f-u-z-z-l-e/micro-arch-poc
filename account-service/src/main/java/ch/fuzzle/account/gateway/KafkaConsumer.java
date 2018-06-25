@@ -1,6 +1,6 @@
-package ch.fuzzle.alpha.gateway;
+package ch.fuzzle.account.gateway;
 
-import ch.fuzzle.alpha.service.AccountService;
+import ch.fuzzle.account.service.AccountService;
 import ch.fuzzle.event.account.AccountEvent;
 import ch.fuzzle.model.AccountRequest;
 import ch.fuzzle.model.BalanceRequest;

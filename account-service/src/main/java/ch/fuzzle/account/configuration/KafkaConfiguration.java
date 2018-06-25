@@ -1,4 +1,4 @@
-package ch.fuzzle.alpha.configuration;
+package ch.fuzzle.account.configuration;
 
 import ch.fuzzle.event.account.AccountEvent;
 import java.util.HashMap;

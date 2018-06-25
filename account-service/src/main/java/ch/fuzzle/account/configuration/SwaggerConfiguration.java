@@ -1,4 +1,4 @@
-package ch.fuzzle.alpha.configuration;
+package ch.fuzzle.account.configuration;
 
 import java.util.ArrayList;
 import java.util.Collections;

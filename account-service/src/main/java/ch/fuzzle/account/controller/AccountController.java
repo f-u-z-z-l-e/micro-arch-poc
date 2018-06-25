@@ -1,6 +1,6 @@
-package ch.fuzzle.alpha.controller;
+package ch.fuzzle.account.controller;
 
-import ch.fuzzle.alpha.service.AccountService;
+import ch.fuzzle.account.service.AccountService;
 import ch.fuzzle.model.AccountRequest;
 import java.math.BigDecimal;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +42,7 @@ class AccountController {
 
 }
 
-@ResponseStatus(value = NOT_FOUND, reason = "some reason")
+@ResponseStatus(value = NOT_FOUND, reason = "The requested resource could not be found.")
 class ResourceNotFoundException extends RuntimeException {
 
 }

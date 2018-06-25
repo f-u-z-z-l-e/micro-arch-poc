@@ -1,11 +1,11 @@
-package ch.fuzzle.alpha;
+package ch.fuzzle.account;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "ch.fuzzle")
-public class Application {
+public class Account {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(Account.class, args);
     }
 }
