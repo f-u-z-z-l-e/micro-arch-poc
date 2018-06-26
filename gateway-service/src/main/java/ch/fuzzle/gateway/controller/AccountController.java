@@ -6,11 +6,12 @@ import ch.fuzzle.model.BalanceRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.net.URI;
-import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -51,7 +52,7 @@ public class AccountController {
                 .toUri();
     }
 
-    @ApiOperation(value = "modify balance of an account", notes = "increase or decreases balance of existing account.")
+    @ApiOperation(value = "modify balance of an account", notes = "Increase or decreases balance of existing account.")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 404, message = "Not Found"),
@@ -70,6 +71,12 @@ public class AccountController {
         return ResponseEntity.created(createResponseUriLocation(eventId)).build();
     }
 
+
+    @ApiOperation(value = "find by name", notes = "Find an existing account by firstname and lastname. ")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
     @ResponseBody
     @ResponseStatus(value = OK)
     @GetMapping(value = "/account/{firstname}-{lastname}", produces = APPLICATION_JSON_UTF8_VALUE)
