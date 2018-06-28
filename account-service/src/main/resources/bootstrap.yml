@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: account-service-aaa
+  cloud:
+    zookeeper:
+      connect-string: zookeeper:2181

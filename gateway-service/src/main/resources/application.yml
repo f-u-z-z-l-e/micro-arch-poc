@@ -1,6 +1,14 @@
-kafka:
-  bootstrap-servers: kafka:9092
-  topics:
-    account: account
 server:
   port: 8080
+
+spring:
+  kafka:
+    bootstrap-servers: kafka:9092
+
+kafka:
+  topics:
+    account: account
+
+logging:
+  level:
+    org.springframework.cloud.zookeeper: INFO

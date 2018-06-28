@@ -2,7 +2,9 @@ package ch.fuzzle.gateway.gateway;
 
 import ch.fuzzle.model.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -13,8 +15,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class AccountServiceRestClient {
 
-    //    @Value("${rest.account-service.base-url}")
-    private String baseUrl = "http://localhost:8081/api/v1";
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     private final RestTemplate restTemplate;
 
@@ -25,7 +27,7 @@ public class AccountServiceRestClient {
 
     public AccountRequest findByName(String firstname, String lastname) {
         log.info("Requesting account for '{} {}' from account-service.", firstname, lastname);
-        String url = getUriBuilder().path("/account/{firstname}-{lastname}").buildAndExpand(firstname, lastname).toUriString();
+        String url = getUriBuilder().path("api/v1/account/{firstname}-{lastname}").buildAndExpand(firstname, lastname).toUriString();
 
         try {
             return restTemplate.getForEntity(url, AccountRequest.class).getBody();
@@ -41,6 +43,7 @@ public class AccountServiceRestClient {
     }
 
     private UriComponentsBuilder getUriBuilder() {
-        return UriComponentsBuilder.fromHttpUrl(baseUrl);
+        return UriComponentsBuilder.fromHttpUrl(discoveryClient.getInstances("account-service-aaa").get(0).getUri().toASCIIString());
     }
+    
 }

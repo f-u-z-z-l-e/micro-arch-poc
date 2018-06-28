@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="gateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="gateway-service_main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.gateway.Application" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.gateway.GatewayServiceApplication" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method />
   </configuration>

@@ -9,10 +9,14 @@ kafka:
   topics:
     account: account
 
-
 #spring:
 #  data:
 #    cassandra:
 #      keyspace-name: info
 #      schema-action: create_if_not_exists
 #      contact-points: cassandra
+
+
+logging:
+  level:
+    org.springframework.cloud.zookeeper: INFO
