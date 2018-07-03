@@ -12,16 +12,14 @@ dependencyManagement {
 dependencies {
     compile project(':model')
 
-    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb-reactive'
-//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.kafka', name: 'spring-kafka'
 
-    compile('org.springframework.cloud:spring-cloud-starter-zookeeper-all') {
+    compile('org.springframework.cloud:spring-cloud-starter-zookeeper-discovery') {
         exclude group: 'org.apache.zookeeper', module: 'zookeeper'
     }
-    compile('org.apache.zookeeper:zookeeper:3.4.9') {
+    compile('org.apache.zookeeper:zookeeper:3.5.4-beta') {
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
     }
 
@@ -29,7 +27,6 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('io.projectreactor:reactor-test')
 }
 
 task copyDocker(type: Copy) {

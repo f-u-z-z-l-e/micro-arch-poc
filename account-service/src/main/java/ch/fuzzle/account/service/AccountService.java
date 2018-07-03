@@ -15,6 +15,16 @@ public class AccountService {
     private Map<Person, AccountRequest> accountRepository = new HashMap<>();
     private Map<String, BigDecimal> balanceRepository = new HashMap<>();
 
+//    @Autowired
+//    private InteractiveQueryService interactiveQueryService;
+
+    public AccountRequest findByName2(String firstname, String lastname) {
+//        ReadOnlyKeyValueStore<Object, Object> store = interactiveQueryService.getQueryableStore("accountStoreTest1", QueryableStoreTypes.keyValueStore());
+//        KeyValueIterator<Object, Object> all = store.all();
+        return findByName(firstname, lastname);
+
+    }
+
     public AccountRequest findByName(String firstname, String lastname) {
         Optional<Person> result = accountRepository.keySet().stream()
                 .filter(p -> firstname.equals(p.getFirstname()))

@@ -3,19 +3,22 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: kafka:9092
+    consumer:
+      auto-commit-interval: 100ms
+      bootstrap-servers: kafka:9092
+      enable-auto-commit: true
+      group-id: s1pGroup
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: ch.fuzzle.event.account
 
 kafka:
   topics:
     account: account
-
-#spring:
-#  data:
-#    cassandra:
-#      keyspace-name: info
-#      schema-action: create_if_not_exists
-#      contact-points: cassandra
-
 
 logging:
   level:

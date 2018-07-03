@@ -30,7 +30,7 @@ class AccountController {
     @ResponseBody
     @GetMapping(value = "/account/{firstname}-{lastname}", produces = APPLICATION_JSON_UTF8_VALUE)
     public AccountRequest findByName(@PathVariable String firstname, @PathVariable String lastname) {
-        AccountRequest accountRequest = service.findByName(firstname, lastname);
+        AccountRequest accountRequest = service.findByName2(firstname, lastname);
         if (accountRequest == null) {
             throw new ResourceNotFoundException();
         }

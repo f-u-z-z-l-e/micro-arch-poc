@@ -25,7 +25,7 @@ public class KafkaConsumer {
     }
 
 
-    @KafkaListener(topics = "${kafka.topics.account}", groupId = "consumer-group")
+    @KafkaListener(topics = "${kafka.topics.account}")
     public void listen(AccountEvent accountEvent) {
         log.info("Received message: " + accountEvent);
 
