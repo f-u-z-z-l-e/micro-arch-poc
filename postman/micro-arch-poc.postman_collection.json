@@ -55,23 +55,15 @@
 			"response": []
 		},
 		{
-			"name": "gateway: add balance to account",
+			"name": "account: find by name",
 			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"amount\": \"100\",\n  \"operation\": \"ADD\"\n}"
-				},
+				"method": "GET",
+				"header": [],
+				"body": {},
 				"url": {
-					"raw": "{{gateway-service-host}}/api/v1/account/{{firstname}}-{{lastname}}",
+					"raw": "{{account-service-host}}/api/v1/account/{{firstname}}-{{lastname}}",
 					"host": [
-						"{{gateway-service-host}}"
+						"{{account-service-host}}"
 					],
 					"path": [
 						"api",
@@ -96,6 +88,35 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n  \"amount\": \"100\",\n  \"operation\": \"WITHDRAW\"\n}"
+				},
+				"url": {
+					"raw": "{{gateway-service-host}}/api/v1/account/{{firstname}}-{{lastname}}",
+					"host": [
+						"{{gateway-service-host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"account",
+						"{{firstname}}-{{lastname}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gateway: add balance to account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": \"100\",\n  \"operation\": \"ADD\"\n}"
 				},
 				"url": {
 					"raw": "{{gateway-service-host}}/api/v1/account/{{firstname}}-{{lastname}}",
