@@ -1,9 +1,11 @@
 package ch.fuzzle.gateway.gateway;
 
 import ch.fuzzle.model.AccountRequest;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -43,7 +45,8 @@ public class AccountServiceRestClient {
     }
 
     private UriComponentsBuilder getUriBuilder() {
-        return UriComponentsBuilder.fromHttpUrl(discoveryClient.getInstances("account-service-aaa").get(0).getUri().toASCIIString());
+        List<ServiceInstance> instances = discoveryClient.getInstances("account-service-aaa");
+        return UriComponentsBuilder.fromHttpUrl(instances.get(0).getUri().toASCIIString());
     }
-    
+
 }

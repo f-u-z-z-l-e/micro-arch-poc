@@ -27,9 +27,9 @@ public class AccountService {
 
     public AccountRequest findByName(String firstname, String lastname) {
         Optional<Person> result = accountRepository.keySet().stream()
-                .filter(p -> firstname.equals(p.getFirstname()))
-                .filter(p -> lastname.equals(p.getLastname()))
-                .findAny();
+            .filter(p -> firstname.equals(p.getFirstname()))
+            .filter(p -> lastname.equals(p.getLastname()))
+            .findAny();
 
         if (result.isPresent()) {
             return accountRepository.get(result.get());

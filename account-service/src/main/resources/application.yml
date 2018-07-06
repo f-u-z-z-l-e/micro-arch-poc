@@ -15,6 +15,26 @@ spring:
           json:
             trusted:
               packages: ch.fuzzle.event.account
+  cloud:
+    stream:
+      kafka:
+        streams:
+          binder:
+            brokers: kafka
+#          zk-nodes: zookeeper
+#        streams:
+#          binder:
+#            configuration:
+#              commit.interval.ms: 1000
+#              default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+#              default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+        account-in:
+          contentType: application/json
+          destination: account
+          consumer:
+            header-mode: raw
+
 
 kafka:
   topics:

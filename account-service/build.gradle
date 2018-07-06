@@ -1,12 +1,13 @@
 group = 'ch.fuzzle.account'
 
 apply plugin: 'org.springframework.boot'
-
+apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
         mavenBom 'org.springframework.cloud:spring-cloud-zookeeper-dependencies:2.0.0.RELEASE'
-        mavenBom 'org.springframework.cloud:spring-cloud-stream-dependencies:Fishtown.M1'
+//        mavenBom 'org.springframework.cloud:spring-cloud-stream-dependencies:Fishtown.M1'
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE'
     }
 }
 
