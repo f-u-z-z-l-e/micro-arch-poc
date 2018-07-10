@@ -1,51 +1,38 @@
 package ch.fuzzle.account.service;
 
-import ch.fuzzle.model.AccountRequest;
+import ch.fuzzle.account.stream.AccountOverview;
 import ch.fuzzle.model.BalanceRequest;
-import ch.fuzzle.model.Person;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import org.apache.kafka.streams.state.KeyValueIterator;
+import org.apache.kafka.streams.state.QueryableStoreTypes;
+import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
+import org.springframework.cloud.stream.binder.kafka.streams.QueryableStoreRegistry;
 import org.springframework.stereotype.Service;
+
+import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_OVERVIEW;
 
 @Service
 public class AccountService {
 
-    private Map<Person, AccountRequest> accountRepository = new HashMap<>();
+    private final QueryableStoreRegistry registry;
     private Map<String, BigDecimal> balanceRepository = new HashMap<>();
 
-//    @Autowired
-//    private InteractiveQueryService interactiveQueryService;
-
-    public AccountRequest findByName2(String firstname, String lastname) {
-//        ReadOnlyKeyValueStore<Object, Object> store = interactiveQueryService.getQueryableStore("accountStoreTest1", QueryableStoreTypes.keyValueStore());
-//        KeyValueIterator<Object, Object> all = store.all();
-        return findByName(firstname, lastname);
-
+    public AccountService(QueryableStoreRegistry registry) {
+        this.registry = registry;
     }
 
-    public AccountRequest findByName(String firstname, String lastname) {
-        Optional<Person> result = accountRepository.keySet().stream()
-            .filter(p -> firstname.equals(p.getFirstname()))
-            .filter(p -> lastname.equals(p.getLastname()))
-            .findAny();
+    public AccountOverview findByName(String firstname, String lastname) {
+        ReadOnlyKeyValueStore<String, AccountOverview> store = registry.getQueryableStoreType(ACCOUNT_OVERVIEW, QueryableStoreTypes.keyValueStore());
+        KeyValueIterator<String, AccountOverview> all = store.all();
 
-        if (result.isPresent()) {
-            return accountRepository.get(result.get());
-        }
-
-        return null;
+        return store.get(firstname + "-" + lastname);
     }
 
-    public AccountRequest findByAccountId(String accountId) {
+    public AccountOverview findByAccountId(String accountId) {
         String[] id = accountId.split("-");
         return findByName(id[0], id[1]);
-    }
-
-
-    public void addAccount(AccountRequest accountRequest) {
-        this.accountRepository.put(accountRequest.getAccountHolder(), accountRequest);
     }
 
     public BigDecimal getBalance(String accountId) {

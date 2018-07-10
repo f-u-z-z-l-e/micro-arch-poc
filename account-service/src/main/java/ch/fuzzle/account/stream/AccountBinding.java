@@ -7,13 +7,9 @@ import org.springframework.cloud.stream.annotation.Input;
 public interface AccountBinding {
 
     String ACCOUNT_IN = "account-in";
-    String ACCOUNT_OVERVIEW = "account-overview-out";
+    String ACCOUNT_OVERVIEW = "account-overview";
 
     @Input(ACCOUNT_IN)
     KStream<String, AccountEvent> accountEventsIn();
-
-//    @Output(ACCOUNT_OVERVIEW)
-//    KTable<String, AccountRequest> lalala();
-
 
 }

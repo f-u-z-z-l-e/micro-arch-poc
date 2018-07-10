@@ -2,9 +2,7 @@ package ch.fuzzle.account.gateway;
 
 import ch.fuzzle.account.service.AccountService;
 import ch.fuzzle.event.account.AccountEvent;
-import ch.fuzzle.model.AccountRequest;
 import ch.fuzzle.model.BalanceRequest;
-import ch.fuzzle.model.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import java.io.IOException;
@@ -30,9 +28,6 @@ public class KafkaConsumer {
         log.info("Received message: " + accountEvent);
 
         switch (accountEvent.getType()) {
-            case ACCOUNT_CREATED:
-                handleAccountCreatedEvent(accountEvent);
-                break;
             case BALANCE_ADDED:
                 handleBalanceAddedEvent(accountEvent);
                 break;
@@ -77,23 +72,6 @@ public class KafkaConsumer {
             log.error("an error occurred reading event data: ", e);
         }
 
-    }
-
-    private void handleAccountCreatedEvent(AccountEvent accountEvent) {
-        ObjectReader objectReader = objectMapper.readerFor(AccountRequest.class);
-        try {
-            AccountRequest accountRequest = objectReader.readValue(accountEvent.getData());
-            Person accountHolder = accountRequest.getAccountHolder();
-
-            if (accountService.findByName(accountHolder.getFirstname(), accountHolder.getLastname()) == null) {
-                accountService.addAccount(accountRequest);
-            } else {
-                log.info("Omit creating account for {} - {}, as one already exists", accountHolder.getFirstname(), accountHolder.getLastname());
-            }
-
-        } catch (IOException e) {
-            log.error("an error occurred reading event data: ", e);
-        }
     }
 
 }

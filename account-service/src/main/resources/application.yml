@@ -21,20 +21,18 @@ spring:
         streams:
           binder:
             brokers: kafka
-#          zk-nodes: zookeeper
-#        streams:
-#          binder:
-#            configuration:
-#              commit.interval.ms: 1000
-#              default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-#              default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+            configuration:
+              commit-interval.ms: 1000
+          bindings:
+            account-in:
+              consumer:
+                key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value.serde: org.springframework.kafka.support.serializer.JsonSerde
       bindings:
         account-in:
-          contentType: application/json
           destination: account
           consumer:
             header-mode: raw
-
 
 kafka:
   topics:
