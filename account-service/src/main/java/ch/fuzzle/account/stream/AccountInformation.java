@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountOverview {
+public class AccountInformation {
 
     private AccountRequest request;
     private Status status;
 
-    enum Status {
+    public enum Status {
         ENABLED, DISABLED
     }
 }

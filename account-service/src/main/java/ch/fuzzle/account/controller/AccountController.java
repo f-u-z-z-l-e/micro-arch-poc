@@ -1,7 +1,7 @@
 package ch.fuzzle.account.controller;
 
 import ch.fuzzle.account.service.AccountService;
-import ch.fuzzle.account.stream.AccountOverview;
+import ch.fuzzle.account.stream.AccountInformation;
 import ch.fuzzle.model.AccountRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import static ch.fuzzle.account.stream.AccountInformation.Status.DISABLED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -34,13 +35,13 @@ class AccountController {
     @ResponseBody
     @GetMapping(value = "/account/{firstname}-{lastname}", produces = APPLICATION_JSON_UTF8_VALUE)
     public AccountRequest findByName(@PathVariable String firstname, @PathVariable String lastname) {
-        AccountOverview accountOverview = service.findByName(firstname, lastname);
+        AccountInformation accountInformation = service.findByName(firstname, lastname);
 
-        if (accountOverview == null) {
+        if (accountInformation == null || DISABLED == accountInformation.getStatus()) {
             throw new ResourceNotFoundException();
         }
 
-        return accountOverview.getRequest();
+        return accountInformation.getRequest();
     }
 
     @ApiOperation(value = "get balance", notes = "Return the balance of the requested account. ")

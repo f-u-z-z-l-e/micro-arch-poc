@@ -1,65 +1,41 @@
 package ch.fuzzle.account.service;
 
-import ch.fuzzle.account.stream.AccountOverview;
-import ch.fuzzle.model.BalanceRequest;
+import ch.fuzzle.account.stream.AccountBalance;
+import ch.fuzzle.account.stream.AccountInformation;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.kafka.streams.state.KeyValueIterator;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.springframework.cloud.stream.binder.kafka.streams.QueryableStoreRegistry;
 import org.springframework.stereotype.Service;
 
-import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_OVERVIEW;
+import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_BALANCE;
+import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_INFORMATION;
 
 @Service
 public class AccountService {
 
     private final QueryableStoreRegistry registry;
-    private Map<String, BigDecimal> balanceRepository = new HashMap<>();
 
     public AccountService(QueryableStoreRegistry registry) {
         this.registry = registry;
     }
 
-    public AccountOverview findByName(String firstname, String lastname) {
-        ReadOnlyKeyValueStore<String, AccountOverview> store = registry.getQueryableStoreType(ACCOUNT_OVERVIEW, QueryableStoreTypes.keyValueStore());
-        KeyValueIterator<String, AccountOverview> all = store.all();
+    public AccountInformation findByName(String firstname, String lastname) {
+        ReadOnlyKeyValueStore<String, AccountInformation> store = registry.getQueryableStoreType(ACCOUNT_INFORMATION, QueryableStoreTypes.keyValueStore());
 
         return store.get(firstname + "-" + lastname);
     }
 
-    public AccountOverview findByAccountId(String accountId) {
+    public AccountInformation findByAccountId(String accountId) {
         String[] id = accountId.split("-");
         return findByName(id[0], id[1]);
     }
 
     public BigDecimal getBalance(String accountId) {
-        return balanceRepository.get(accountId);
+        ReadOnlyKeyValueStore<String, AccountBalance> store = registry.getQueryableStoreType(ACCOUNT_BALANCE, QueryableStoreTypes.keyValueStore());
+        AccountBalance accountBalance = store.get(accountId);
+
+        return accountBalance == null ? new BigDecimal("0") : accountBalance.getBalance();
     }
 
-    public void addBalance(String accountId, BalanceRequest balanceRequest) {
-        BigDecimal previousAmount = this.balanceRepository.get(accountId);
-
-        if (previousAmount == null) {
-            this.balanceRepository.put(accountId, new BigDecimal(balanceRequest.getAmount()));
-        } else {
-            BigDecimal newAmount = previousAmount.add(new BigDecimal(balanceRequest.getAmount()));
-            this.balanceRepository.put(accountId, newAmount);
-        }
-
-    }
-
-    public void withdrawBalance(String accountId, BalanceRequest balanceRequest) {
-        BigDecimal previousAmount = this.balanceRepository.get(accountId);
-
-        if (previousAmount == null) {
-            this.balanceRepository.put(accountId, new BigDecimal(balanceRequest.getAmount()).multiply(new BigDecimal("-1")));
-        } else {
-            BigDecimal newAmount = previousAmount.subtract(new BigDecimal(balanceRequest.getAmount()));
-            this.balanceRepository.put(accountId, newAmount);
-        }
-
-    }
 }
