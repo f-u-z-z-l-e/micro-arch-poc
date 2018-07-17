@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1182f625-4c32-427d-a824-542b531ce8a6",
+		"_postman_id": "c98bba5d-2f2c-462f-976a-f5b6cd042f52",
 		"name": "micro-arch-poc",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,7 +17,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"accountHolder\": {\n    \"address\": {\n      \"city\": \"Bern\",\n      \"country\": \"Switzerland\",\n      \"postalCode\": \"3000\",\n      \"state\": \"Bern\",\n      \"street\": \"Marktgasse\",\n      \"streetNumber\": \"1\"\n    },\n    \"firstname\": \"John\",\n    \"lastname\": \"Rambo\"\n  }\n}"
+					"raw": "{\n  \"accountHolder\": {\n    \"address\": {\n      \"city\": \"Bern\",\n      \"country\": \"Switzerland\",\n      \"postalCode\": \"3000\",\n      \"state\": \"Bern\",\n      \"street\": \"Marktgasse\",\n      \"streetNumber\": \"1\"\n    },\n    \"firstname\": \"{{firstname}}\",\n    \"lastname\": \"{{lastname}}\"\n  }\n}"
 				},
 				"url": {
 					"raw": "{{gateway-service-host}}/api/v1/account",
@@ -38,7 +38,10 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{gateway-service-host}}/api/v1/account/{{firstname}}-{{lastname}}",
 					"host": [
@@ -55,11 +58,38 @@
 			"response": []
 		},
 		{
+			"name": "account: get balance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{account-service-host}}/api/v1/balance/{{firstname}}-{{lastname}}",
+					"host": [
+						"{{account-service-host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"balance",
+						"{{firstname}}-{{lastname}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "account: find by name",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "{{account-service-host}}/api/v1/account/{{firstname}}-{{lastname}}",
 					"host": [
