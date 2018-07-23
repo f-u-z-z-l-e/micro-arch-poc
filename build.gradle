@@ -43,4 +43,4 @@ task wrapper(type: Wrapper) {
 }
 
 task prepareDocker
-prepareDocker.dependsOn('account-service:copyDocker', 'beta-service:copyDocker', 'gateway-service:copyDocker')
+prepareDocker.dependsOn('account-service:copyDocker', 'beta-service:copyDocker', 'config-server:copyDocker', 'gateway-service:copyDocker')

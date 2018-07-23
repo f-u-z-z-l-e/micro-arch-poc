@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="config-server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="config-server_main" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.config.ConfigServerApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method />
+  </configuration>
+</component>

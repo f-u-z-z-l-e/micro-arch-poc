@@ -1,6 +1,7 @@
 package ch.fuzzle.gateway.gateway;
 
 import ch.fuzzle.model.AccountRequest;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -11,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @Slf4j
 @Component
@@ -46,7 +45,7 @@ public class AccountServiceRestClient {
     }
 
     private UriComponentsBuilder getUriBuilder() {
-        List<ServiceInstance> instances = discoveryClient.getInstances("account-service-aaa");
+        List<ServiceInstance> instances = discoveryClient.getInstances("account-service");
 
         if (instances != null) {
             log.info("Instances found: " + instances.size());

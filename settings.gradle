@@ -1,5 +1,5 @@
 include 'gateway-service'
 include 'account-service'
 include 'beta-service'
+include 'config-server'
 include 'model'
-//include 'gamma-service'

@@ -1,7 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="beta" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="beta-service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="beta-service_main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.beta.Application" />
+    <option name="ACTIVE_PROFILES" value="idea" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method />
   </configuration>
