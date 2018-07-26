@@ -1,6 +1,6 @@
-package ch.fuzzle.beta.scheduler;
+package ch.fuzzle.accountbalance.scheduler;
 
-import ch.fuzzle.beta.gateway.KafkaProducer;
+import ch.fuzzle.accountbalance.gateway.KafkaProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

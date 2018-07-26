@@ -1,4 +1,4 @@
-package ch.fuzzle.beta;
+package ch.fuzzle.accountbalance;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

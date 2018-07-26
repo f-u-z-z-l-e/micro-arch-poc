@@ -53,9 +53,9 @@ services:
       kafka_net:
         ipv4_address: 172.20.1.32
 
-#  beta:
-#    container_name: beta
-#    build: beta-service/build/docker/.
+#  accountbalance:
+#    container_name: accountbalance
+#    build: accountbalance-service/build/docker/.
 #    networks:
 #      kafka_net:
 #        ipv4_address: 172.20.1.33

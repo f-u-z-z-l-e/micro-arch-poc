@@ -1,4 +1,4 @@
-package ch.fuzzle.beta.configuration;
+package ch.fuzzle.accountbalance.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;

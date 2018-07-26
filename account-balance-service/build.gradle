@@ -1,4 +1,4 @@
-group = 'ch.fuzzle.beta'
+group = 'ch.fuzzle.accountbalance'
 
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'

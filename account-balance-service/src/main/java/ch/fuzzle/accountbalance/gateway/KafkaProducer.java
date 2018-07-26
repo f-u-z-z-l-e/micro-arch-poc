@@ -1,4 +1,4 @@
-package ch.fuzzle.beta.gateway;
+package ch.fuzzle.accountbalance.gateway;
 
 import org.springframework.stereotype.Component;
 

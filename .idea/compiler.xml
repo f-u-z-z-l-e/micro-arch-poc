@@ -5,6 +5,8 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="account-balance-service_main" target="1.8" />
+      <module name="account-balance-service_test" target="1.8" />
       <module name="account-service_main" target="1.8" />
       <module name="account-service_test" target="1.8" />
       <module name="beta-service_main" target="1.8" />
