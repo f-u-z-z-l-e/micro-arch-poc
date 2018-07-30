@@ -1,12 +1,12 @@
-package ch.fuzzle.account.service;
+package ch.fuzzle.accountregistration.service;
 
-import ch.fuzzle.account.stream.AccountInformation;
+import ch.fuzzle.accountregistration.stream.AccountInformation;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.springframework.cloud.stream.binder.kafka.streams.QueryableStoreRegistry;
 import org.springframework.stereotype.Service;
 
-import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_INFORMATION;
+import static ch.fuzzle.accountregistration.stream.AccountBinding.ACCOUNT_INFORMATION;
 
 @Service
 public class AccountService {

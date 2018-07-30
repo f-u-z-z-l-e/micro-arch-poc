@@ -1,4 +1,4 @@
-package ch.fuzzle.account.configuration;
+package ch.fuzzle.accountregistration.configuration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,24 +48,24 @@ public class SwaggerConfiguration {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("ch.fuzzle"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo())
-                .useDefaultResponseMessages(false) // Don't use default response messages
-                .globalResponseMessage(RequestMethod.GET, new ArrayList<>()) // no predefined response messages for GET
-                .globalResponseMessage(RequestMethod.PATCH, new ArrayList<>()) // no predefined response messages for PATCH
-                .globalResponseMessage(RequestMethod.POST, new ArrayList<>()) // no predefined response messages for POST
-                .globalResponseMessage(RequestMethod.PUT, new ArrayList<>()); // no predefined response messages for PUT
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("ch.fuzzle"))
+            .paths(PathSelectors.any())
+            .build()
+            .apiInfo(apiInfo())
+            .useDefaultResponseMessages(false) // Don't use default response messages
+            .globalResponseMessage(RequestMethod.GET, new ArrayList<>()) // no predefined response messages for GET
+            .globalResponseMessage(RequestMethod.PATCH, new ArrayList<>()) // no predefined response messages for PATCH
+            .globalResponseMessage(RequestMethod.POST, new ArrayList<>()) // no predefined response messages for POST
+            .globalResponseMessage(RequestMethod.PUT, new ArrayList<>()); // no predefined response messages for PUT
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                apiTitle,
-                apiDescription,
-                apiVersion,
-                apiTos,
-                new Contact(apiContactName, apiContactUrl, apiContactEmail), apiContactLicense, apiContactLicenseUrl, Collections.emptyList());
+            apiTitle,
+            apiDescription,
+            apiVersion,
+            apiTos,
+            new Contact(apiContactName, apiContactUrl, apiContactEmail), apiContactLicense, apiContactLicenseUrl, Collections.emptyList());
     }
 }

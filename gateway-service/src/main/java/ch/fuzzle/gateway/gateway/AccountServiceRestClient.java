@@ -28,14 +28,14 @@ public class AccountServiceRestClient {
 
 
     public AccountRequest findByName(String firstname, String lastname) {
-        log.info("Requesting account for '{} {}' from account-service.", firstname, lastname);
+        log.info("Requesting account for '{} {}' from account-registration-service.", firstname, lastname);
         String url = getUriBuilder().path("api/v1/account/{firstname}-{lastname}").buildAndExpand(firstname, lastname).toUriString();
 
         try {
             return restTemplate.getForEntity(url, AccountRequest.class).getBody();
         } catch (HttpClientErrorException e) {
             if (HttpStatus.NOT_FOUND == e.getStatusCode()) {
-                log.info("'{} {}' is not known by account-service.", firstname, lastname);
+                log.info("'{} {}' is not known by account-registration-service.", firstname, lastname);
             } else {
                 log.info("An error occurred accessing account-service!", firstname, lastname, e);
             }
@@ -45,7 +45,7 @@ public class AccountServiceRestClient {
     }
 
     private UriComponentsBuilder getUriBuilder() {
-        List<ServiceInstance> instances = discoveryClient.getInstances("account-service");
+        List<ServiceInstance> instances = discoveryClient.getInstances("account-registration-service");
 
         if (instances != null) {
             log.info("Instances found: " + instances.size());

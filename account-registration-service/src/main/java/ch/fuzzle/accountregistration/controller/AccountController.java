@@ -1,7 +1,7 @@
-package ch.fuzzle.account.controller;
+package ch.fuzzle.accountregistration.controller;
 
-import ch.fuzzle.account.service.AccountService;
-import ch.fuzzle.account.stream.AccountInformation;
+import ch.fuzzle.accountregistration.service.AccountService;
+import ch.fuzzle.accountregistration.stream.AccountInformation;
 import ch.fuzzle.model.AccountRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import static ch.fuzzle.account.stream.AccountInformation.Status.DISABLED;
+import static ch.fuzzle.accountregistration.stream.AccountInformation.Status.DISABLED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 

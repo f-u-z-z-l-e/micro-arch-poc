@@ -1,4 +1,4 @@
-package ch.fuzzle.account.stream;
+package ch.fuzzle.accountregistration.stream;
 
 import ch.fuzzle.model.AccountRequest;
 import lombok.AllArgsConstructor;
