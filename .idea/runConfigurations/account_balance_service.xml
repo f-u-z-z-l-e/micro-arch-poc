@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="account-balance-service" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="account-balance-service_main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.accountbalance.Application" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.accountbalance.AccountBalanceServiceApplication" />
     <option name="ACTIVE_PROFILES" value="idea" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method />

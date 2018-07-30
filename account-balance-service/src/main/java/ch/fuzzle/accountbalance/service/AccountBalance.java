@@ -1,4 +1,4 @@
-package ch.fuzzle.account.stream;
+package ch.fuzzle.accountbalance.service;
 
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;

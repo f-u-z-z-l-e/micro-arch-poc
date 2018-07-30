@@ -6,7 +6,6 @@ apply plugin: 'io.spring.dependency-management'
 dependencyManagement {
     imports {
         mavenBom 'org.springframework.cloud:spring-cloud-zookeeper-dependencies:2.0.0.RELEASE'
-//        mavenBom 'org.springframework.cloud:spring-cloud-stream-dependencies:Fishtown.M1'
         mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE'
     }
 }
@@ -15,7 +14,6 @@ dependencies {
     compile project(':model')
 
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
-
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-kafka'
@@ -27,7 +25,6 @@ dependencies {
     compile('org.apache.zookeeper:zookeeper:3.5.4-beta') {
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
     }
-
 
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
@@ -43,3 +40,4 @@ task copyDocker(type: Copy) {
 }
 
 copyDocker.dependsOn bootJar
+copyDocker.mustRunAfter bootJar
