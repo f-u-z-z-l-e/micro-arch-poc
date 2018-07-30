@@ -1,4 +1,4 @@
-group = 'ch.fuzzle.account'
+group = 'ch.fuzzle.accountregistration'
 
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'

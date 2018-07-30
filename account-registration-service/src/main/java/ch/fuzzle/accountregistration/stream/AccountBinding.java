@@ -1,4 +1,4 @@
-package ch.fuzzle.account.stream;
+package ch.fuzzle.accountregistration.stream;
 
 import ch.fuzzle.event.account.AccountEvent;
 import org.apache.kafka.streams.kstream.KStream;

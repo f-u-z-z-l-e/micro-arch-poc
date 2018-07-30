@@ -1,5 +1,5 @@
 include 'gateway-service'
-include 'account-service'
+include 'account-registration-service'
 include 'account-balance-service'
 include 'config-server'
 include 'model'

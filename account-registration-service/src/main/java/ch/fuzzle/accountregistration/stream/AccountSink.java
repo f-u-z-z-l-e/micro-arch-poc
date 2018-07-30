@@ -1,4 +1,4 @@
-package ch.fuzzle.account.stream;
+package ch.fuzzle.accountregistration.stream;
 
 import ch.fuzzle.event.account.AccountEvent;
 import ch.fuzzle.model.AccountRequest;
@@ -23,10 +23,10 @@ import org.springframework.stereotype.Component;
 
 import static java.util.Arrays.asList;
 
-import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_IN;
-import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_INFORMATION;
-import static ch.fuzzle.account.stream.AccountInformation.Status.DISABLED;
-import static ch.fuzzle.account.stream.AccountInformation.Status.ENABLED;
+import static ch.fuzzle.accountregistration.stream.AccountBinding.ACCOUNT_IN;
+import static ch.fuzzle.accountregistration.stream.AccountBinding.ACCOUNT_INFORMATION;
+import static ch.fuzzle.accountregistration.stream.AccountInformation.Status.DISABLED;
+import static ch.fuzzle.accountregistration.stream.AccountInformation.Status.ENABLED;
 import static ch.fuzzle.event.account.AccountEventType.ACCOUNT_CREATED;
 import static ch.fuzzle.event.account.AccountEventType.ACCOUNT_REACTIVATED;
 
