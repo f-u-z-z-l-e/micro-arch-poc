@@ -2,11 +2,9 @@ package ch.fuzzle.account.stream;
 
 import ch.fuzzle.event.account.AccountEvent;
 import ch.fuzzle.model.AccountRequest;
-import ch.fuzzle.model.BalanceRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
@@ -25,7 +23,8 @@ import org.springframework.stereotype.Component;
 
 import static java.util.Arrays.asList;
 
-import static ch.fuzzle.account.stream.AccountBinding.*;
+import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_IN;
+import static ch.fuzzle.account.stream.AccountBinding.ACCOUNT_INFORMATION;
 import static ch.fuzzle.account.stream.AccountInformation.Status.DISABLED;
 import static ch.fuzzle.account.stream.AccountInformation.Status.ENABLED;
 import static ch.fuzzle.event.account.AccountEventType.ACCOUNT_CREATED;
@@ -47,18 +46,8 @@ public class AccountSink {
     @StreamListener
     public void process(@Input(ACCOUNT_IN) KStream<String, AccountEvent> events) {
         processAccountInformation(events);
-        processAccountBalance(events);
     }
 
-    private void processAccountBalance(KStream<String, AccountEvent> events) {
-        events.
-            filter(AccountSink::accountBalanceModificationEvent)
-            .map((key, value) -> new KeyValue<>(value.getAccountId(), value))
-            .groupByKey(Serialized.with(Serdes.String(), new JsonSerde<>(AccountEvent.class)))
-            .aggregate(() -> new AccountBalance(), new AccountBalanceAggregator(),
-                Materialized.<String, AccountEvent, KeyValueStore<Bytes, byte[]>>as(ACCOUNT_BALANCE)
-                    .withKeySerde(Serdes.String()).withValueSerde(new JsonSerde(AccountBalance.class)));
-    }
 
     private void processAccountInformation(KStream<String, AccountEvent> events) {
         events
@@ -70,16 +59,6 @@ public class AccountSink {
                     .withKeySerde(Serdes.String()).withValueSerde(new JsonSerde(AccountInformation.class)));
     }
 
-    public static boolean accountBalanceModificationEvent(String key, AccountEvent accountEvent) {
-        switch (accountEvent.getType()) {
-            case BALANCE_ADDED:
-            case BALANCE_WITHDRAWN:
-                return true;
-            default:
-                return false;
-        }
-    }
-
     public static boolean accountModificationEvent(String key, AccountEvent accountEvent) {
         switch (accountEvent.getType()) {
             case ACCOUNT_CREATED:
@@ -89,38 +68,6 @@ public class AccountSink {
                 return true;
             default:
                 return false;
-        }
-    }
-
-    class AccountBalanceAggregator implements Aggregator<String, AccountEvent, AccountBalance> {
-        @Override
-        public AccountBalance apply(String key, AccountEvent event, AccountBalance aggregate) {
-            BalanceRequest request = null;
-            ObjectReader objectReader = objectMapper.readerFor(BalanceRequest.class);
-            try {
-                request = objectReader.readValue(event.getData());
-            } catch (IOException e) {
-                log.error("Unable to deserialize balanceRequest.", e);
-            }
-
-            if (request.getOperation() == null) {
-                throw new IllegalStateException("null balance modification operation not allowed here!");
-            }
-
-            AccountBalance balance = new AccountBalance();
-
-            switch (request.getOperation()) {
-                case ADD:
-                    balance.setBalance(aggregate.getBalance().add(new BigDecimal(request.getAmount())));
-                    break;
-                case WITHDRAW:
-                    balance.setBalance(aggregate.getBalance().subtract(new BigDecimal(request.getAmount())));
-                    break;
-                default:
-                    throw new IllegalStateException("unknown balance modification operation: " + request.getOperation());
-            }
-
-            return balance;
         }
     }
 

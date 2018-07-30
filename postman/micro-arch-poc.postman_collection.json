@@ -58,7 +58,7 @@
 			"response": []
 		},
 		{
-			"name": "account: get balance",
+			"name": "account-balance: get balance",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -67,9 +67,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{account-service-host}}/api/v1/balance/{{firstname}}-{{lastname}}",
+					"raw": "{{account-balance-service-host}}/api/v1/balance/{{firstname}}-{{lastname}}",
 					"host": [
-						"{{account-service-host}}"
+						"{{account-balance-service-host}}"
 					],
 					"path": [
 						"api",
