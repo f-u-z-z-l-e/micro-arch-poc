@@ -1,17 +1,17 @@
 package ch.fuzzle.gateway.service;
 
 import ch.fuzzle.event.account.AccountEvent;
-import ch.fuzzle.gateway.gateway.AccountServiceRestClient;
+import ch.fuzzle.gateway.gateway.AccountRegistrationClient;
 import ch.fuzzle.gateway.gateway.KafkaProducer;
 import ch.fuzzle.model.AccountRequest;
 import ch.fuzzle.model.BalanceRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import static ch.fuzzle.event.account.AccountEventType.*;
 import static ch.fuzzle.model.BalanceOperation.ADD;
@@ -23,13 +23,13 @@ public class AccountService {
     private KafkaProducer kafkaProducer;
     private ObjectMapper objectMapper;
     private ValidationService validationService;
-    private AccountServiceRestClient accountServiceRestClient;
+    private AccountRegistrationClient accountRegistrationClient;
 
-    public AccountService(KafkaProducer kafkaProducer, ObjectMapper objectMapper, ValidationService validationService, AccountServiceRestClient accountServiceRestClient) {
+    public AccountService(KafkaProducer kafkaProducer, ObjectMapper objectMapper, ValidationService validationService, AccountRegistrationClient accountRegistrationClient) {
         this.kafkaProducer = kafkaProducer;
         this.objectMapper = objectMapper;
         this.validationService = validationService;
-        this.accountServiceRestClient = accountServiceRestClient;
+        this.accountRegistrationClient = accountRegistrationClient;
     }
 
     public UUID createAccount(AccountRequest request) {
@@ -49,7 +49,6 @@ public class AccountService {
 
             // broadcast accountEvent
             kafkaProducer.sendMessage(accountEvent);
-
         }
 
         // return uuid to caller
@@ -68,8 +67,8 @@ public class AccountService {
 
     public AccountRequest findByName(String firstname, String lastname) {
         try {
-            return accountServiceRestClient.findByName(firstname, lastname);
-        } catch (HttpClientErrorException e) {
+            return accountRegistrationClient.findByName(firstname, lastname);
+        } catch (FeignException e) {
             log.info("Error occurred while trying to find account for {} - {}!", firstname, lastname, e);
             return null;
         }

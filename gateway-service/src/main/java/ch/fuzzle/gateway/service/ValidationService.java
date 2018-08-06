@@ -1,25 +1,33 @@
 package ch.fuzzle.gateway.service;
 
-import ch.fuzzle.gateway.gateway.AccountServiceRestClient;
+import ch.fuzzle.gateway.gateway.AccountRegistrationClient;
 import ch.fuzzle.model.AccountRequest;
 import ch.fuzzle.model.Person;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class ValidationService {
 
-    private AccountServiceRestClient accountServiceRestClient;
+    private AccountRegistrationClient registrationClient;
 
-    public ValidationService(AccountServiceRestClient accountServiceRestClient) {
-        this.accountServiceRestClient = accountServiceRestClient;
+    public ValidationService(AccountRegistrationClient registrationClient) {
+        this.registrationClient = registrationClient;
     }
 
     public boolean accountExists(String firstname, String lastname) {
-        AccountRequest accountRequest = accountServiceRestClient.findByName(firstname, lastname);
-        if (accountRequest == null) {
-            return false;
+        AccountRequest accountRequest;
+        try {
+            accountRequest = registrationClient.findByName(firstname, lastname);
+        } catch (FeignException ex) {
+            if (HttpStatus.NOT_FOUND.value() == ex.status()) {
+                return false;
+            } else {
+                throw ex;
+            }
         }
 
         Person accountHolder = accountRequest.getAccountHolder();
@@ -32,4 +40,5 @@ public class ValidationService {
         log.info("Account identifier mismatch for {} - {} found!", firstname, lastname);
         return false;
     }
+
 }

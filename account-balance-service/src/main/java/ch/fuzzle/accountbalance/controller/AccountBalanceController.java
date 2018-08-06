@@ -15,6 +15,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 @RestController
 @RequestMapping("api/v1")
 public class AccountBalanceController {
+    private static final String ERROR_MISSING_IDS = "Cannot create response uri, as eventId is missing!";
 
     private AccountBalanceService service;
 
