@@ -1,4 +1,4 @@
-package ch.fuzzle.gateway.gateway;
+package ch.fuzzle.accountbalance.gateway;
 
 import ch.fuzzle.event.account.AccountEvent;
 import lombok.extern.slf4j.Slf4j;

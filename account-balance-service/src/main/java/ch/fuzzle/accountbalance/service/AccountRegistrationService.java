@@ -1,6 +1,6 @@
-package ch.fuzzle.gateway.service;
+package ch.fuzzle.accountbalance.service;
 
-import ch.fuzzle.gateway.gateway.AccountRegistrationClient;
+import ch.fuzzle.accountbalance.gateway.AccountRegistrationClient;
 import ch.fuzzle.model.AccountRequest;
 import ch.fuzzle.model.Person;
 import feign.FeignException;
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class ValidationService {
+public class AccountRegistrationService {
 
     private AccountRegistrationClient registrationClient;
 
-    public ValidationService(AccountRegistrationClient registrationClient) {
+    public AccountRegistrationService(AccountRegistrationClient registrationClient) {
         this.registrationClient = registrationClient;
     }
 
@@ -40,5 +40,4 @@ public class ValidationService {
         log.info("Account identifier mismatch for {} - {} found!", firstname, lastname);
         return false;
     }
-
 }

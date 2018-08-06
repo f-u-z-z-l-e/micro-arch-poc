@@ -1,4 +1,4 @@
-package ch.fuzzle.gateway.gateway;
+package ch.fuzzle.accountbalance.gateway;
 
 import ch.fuzzle.model.AccountRequest;
 import org.springframework.cloud.openfeign.FeignClient;
