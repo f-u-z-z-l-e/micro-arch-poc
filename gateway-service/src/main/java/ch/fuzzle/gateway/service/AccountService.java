@@ -3,17 +3,16 @@ package ch.fuzzle.gateway.service;
 import ch.fuzzle.event.account.AccountEvent;
 import ch.fuzzle.gateway.gateway.AccountRegistrationClient;
 import ch.fuzzle.gateway.gateway.KafkaProducer;
-import ch.fuzzle.model.AccountRequest;
 import ch.fuzzle.model.BalanceRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import feign.FeignException;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import static ch.fuzzle.event.account.AccountEventType.*;
+import static ch.fuzzle.event.account.AccountEventType.BALANCE_ADDED;
+import static ch.fuzzle.event.account.AccountEventType.BALANCE_WITHDRAWN;
 import static ch.fuzzle.model.BalanceOperation.ADD;
 
 @Slf4j
@@ -32,29 +31,6 @@ public class AccountService {
         this.accountRegistrationClient = accountRegistrationClient;
     }
 
-    public UUID createAccount(AccountRequest request) {
-        UUID eventId = UUID.randomUUID();
-        String firstname = request.getAccountHolder().getFirstname();
-        String lastname = request.getAccountHolder().getLastname();
-
-        // validate request
-        if (!validationService.accountExists(firstname, lastname)) {
-            // prepare event
-            AccountEvent accountEvent = new AccountEvent();
-            accountEvent.setType(ACCOUNT_CREATED);
-            accountEvent.setEventId(eventId);
-            accountEvent.setTimestamp(ZonedDateTime.now().toString());
-            accountEvent.setAccountId(firstname + "-" + lastname);
-            accountEvent.setData(convert(request));
-
-            // broadcast accountEvent
-            kafkaProducer.sendMessage(accountEvent);
-        }
-
-        // return uuid to caller
-        return eventId;
-    }
-
     private String convert(Object request) {
         try {
             return objectMapper.writeValueAsString(request);
@@ -63,16 +39,6 @@ public class AccountService {
         }
 
         return "";
-    }
-
-    public AccountRequest findByName(String firstname, String lastname) {
-        try {
-            return accountRegistrationClient.findByName(firstname, lastname);
-        } catch (FeignException e) {
-            log.info("Error occurred while trying to find account for {} - {}!", firstname, lastname, e);
-            return null;
-        }
-
     }
 
     public UUID modifyBalance(String firstname, String lastname, BalanceRequest request) {

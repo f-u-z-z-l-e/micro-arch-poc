@@ -1,0 +1,43 @@
+server:
+  port: 8081
+
+spring:
+  cloud:
+    zookeeper:
+      connect-string: zookeeper:2181
+    stream:
+      kafka:
+        streams:
+          binder:
+            brokers: kafka
+          bindings:
+            account-in:
+              consumer:
+                key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value.serde: org.springframework.kafka.support.serializer.JsonSerde
+      bindings:
+        account-in:
+          destination: account
+          consumer:
+            header-mode: raw
+          group: account-registration-group
+  kafka:
+    producer:
+      bootstrap-servers: kafka:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    template:
+      default-topic: account
+
+management:
+  info:
+    git:
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    org.springframework.cloud.zookeeper: INFO

@@ -17,7 +17,6 @@ import org.apache.kafka.streams.state.KeyValueStore;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.binder.kafka.streams.QueryableStoreRegistry;
 import org.springframework.kafka.support.serializer.JsonSerde;
 import org.springframework.stereotype.Component;
 
@@ -33,14 +32,12 @@ import static ch.fuzzle.event.account.AccountEventType.ACCOUNT_REACTIVATED;
 @Slf4j
 @Component
 @EnableBinding(AccountBinding.class)
-public class AccountSink {
+public class AccountRegistrationSink {
 
     private ObjectMapper objectMapper;
-    private QueryableStoreRegistry registry;
 
-    public AccountSink(ObjectMapper objectMapper, QueryableStoreRegistry registry) {
+    public AccountRegistrationSink(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.registry = registry;
     }
 
     @StreamListener
@@ -51,7 +48,7 @@ public class AccountSink {
 
     private void processAccountInformation(KStream<String, AccountEvent> events) {
         events
-            .filter(AccountSink::accountModificationEvent)
+            .filter(AccountRegistrationSink::accountModificationEvent)
             .map((key, value) -> new KeyValue<>(value.getAccountId(), value))
             .groupByKey(Serialized.with(Serdes.String(), new JsonSerde<>(AccountEvent.class)))
             .aggregate(() -> new AccountInformation(), new AccountInformationAggregator(),
