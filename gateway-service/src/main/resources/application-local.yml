@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    zookeeper:
+      connect-string: zookeeper:2181
+    gateway:
+      routes:
+      - id: registration-service
+        uri: lb://account-registration-service
+        predicates:
+        - Path=/api/v1/account/**
+      - id: balance-service
+        uri: lb://account-balance-service
+        predicates:
+        - Path=/api/v1/balance/**
+      discovery:
+        locator:
+          enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    sender:
+      type: kafka
+  kafka:
+    producer:
+      bootstrap-servers: kafka:9092
+
+logging:
+  level:
+    org.springframework.cloud.zookeeper: INFO
+    org.springframework.cloud.sleuth: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.apache.kafka.clients.producer: DEBUG
+
+management:
+  info:
+    git:
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: "*"

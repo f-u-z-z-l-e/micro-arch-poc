@@ -21,16 +21,8 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-
-  cassandra:
-    container_name: cassandra
-    image: library/cassandra:3.11
-    networks:
-      kafka_net:
-        ipv4_address: 172.20.1.40
-# docker exec -ti cassandra /bin/bash
-# cqlsh
-# CREATE KEYSPACE info WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+    depends_on:
+      - zookeeper
 
   gateway-service:
     container_name: gateway
@@ -38,6 +30,8 @@ services:
     networks:
       kafka_net:
         ipv4_address: 172.20.1.30
+    depends_on:
+      - kafka
 
   account-registration-service:
     container_name: account-registration-service
@@ -45,13 +39,17 @@ services:
     networks:
       kafka_net:
         ipv4_address: 172.20.1.31
+    depends_on:
+      - kafka
 
-  account-registration-service2:
-    container_name: account-registration-service2
-    build: account-registration-service/build/docker/.
-    networks:
-      kafka_net:
-        ipv4_address: 172.20.1.32
+#  account-registration-service2:
+#    container_name: account-registration-service2
+#    build: account-registration-service/build/docker/.
+#    networks:
+#      kafka_net:
+#        ipv4_address: 172.20.1.32
+#    depends_on:
+#      - kafka
 
   account-balance-service:
     container_name: account-balance-service
@@ -59,6 +57,8 @@ services:
     networks:
       kafka_net:
         ipv4_address: 172.20.1.33
+    depends_on:
+      - kafka
 
   config-server:
     container_name: config-server
@@ -66,6 +66,30 @@ services:
     networks:
       kafka_net:
         ipv4_address: 172.20.1.40
+    depends_on:
+      - zookeeper
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.50
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+
+  zipkin-ui:
+    container_name: zipkin-ui
+    image: openzipkin/zipkin-ui
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.51
+    environment:
+    - ZIPKIN_BASE_URL=http://zipkin:9411
+    depends_on:
+      - zipkin
 
 networks:
  kafka_net:
@@ -78,3 +102,13 @@ networks:
 # to connect to zookeeper from you local machine edit /etc/hosts and add "172.20.1.10  zookeeper"
 # to connect to kafka from you local machine edit /etc/hosts and add "172.20.1.20  kafka"
 # to connect to cassandra from you local machine edit /etc/hosts and add "172.20.1.40 cassandra"
+
+#  cassandra:
+#    container_name: cassandra
+#    image: library/cassandra:3.11
+#    networks:
+#      kafka_net:
+#        ipv4_address: 172.20.1.40
+# docker exec -ti cassandra /bin/bash
+# cqlsh
+# CREATE KEYSPACE info WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };

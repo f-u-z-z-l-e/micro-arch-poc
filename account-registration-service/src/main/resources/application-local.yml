@@ -28,6 +28,11 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     template:
       default-topic: account
+    zipkin:
+      sender:
+        type: kafka
+
+
 
 management:
   info:

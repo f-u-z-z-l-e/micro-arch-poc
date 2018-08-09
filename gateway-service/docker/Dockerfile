@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8
 
 COPY gateway-service-0.0.1.jar app.jar
 ENV JAVA_OPTS="-Xmx1g"
