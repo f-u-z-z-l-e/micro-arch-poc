@@ -5,3 +5,11 @@ spring:
     config:
       uri: http://config-server:8888 # to connect to config-server from you local machine edit /etc/hosts and add "172.20.1.40 config-server"
       fail-fast: true
+    vault:
+      scheme: http
+      host: vault
+      port: 8200
+      connection-timeout: 5000
+      read-timeout: 15000
+      authentication: TOKEN
+      token: myroot #replace-me with environment variable

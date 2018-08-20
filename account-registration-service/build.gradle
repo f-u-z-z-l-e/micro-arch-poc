@@ -18,6 +18,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
 
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-vault-config'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-kafka'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka-streams'
