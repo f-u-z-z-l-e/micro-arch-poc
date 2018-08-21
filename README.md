@@ -13,7 +13,6 @@ start zookeeper (used by kafka and for service discovery in spring), then kafka 
 ## Vault
 Vault needs to be initialized and properties need to be added manually.
 * ```docker exec -ti vault /bin/sh```
-* ```vault auth myroot```
 * ```vault login``` will prompt for a password, type: ```myroot```
 * ```vault kv put /secret/account-registration-service store.properties.foo="value from vault"```
 
