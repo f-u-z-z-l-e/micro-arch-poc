@@ -3,5 +3,6 @@ spring:
     name: account-balance-service
   cloud:
     config:
+      token: myroot #replace-me with environment variable
       uri: http://config-server:8888 # to connect to config-server from you local machine edit /etc/hosts and add "172.20.1.40 config-server"
       fail-fast: true
