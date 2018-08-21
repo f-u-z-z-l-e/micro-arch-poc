@@ -92,7 +92,7 @@ services:
     - zipkin
 
   vault:
-    image: vault:0.10.0
+    image: vault:0.10.4
     container_name: vault
     hostname: vault
     environment:
