@@ -16,3 +16,4 @@ spring:
           host: vault
           port: 8200
           kv-version: 2
+          profile-separator: '/'
