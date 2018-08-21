@@ -1,3 +1,19 @@
 spring:
   application:
-    name: config-service
+    name: config-server
+  profiles:
+    active: git, vault
+  cloud:
+    config:
+      server:
+        git:
+          order: 1
+          uri: https://github.com/f-u-z-z-l-e/micro-arch-poc-config.git
+          search-paths: docker,idea
+        vault:
+          order: 0
+          scheme: http
+          host: vault
+          port: 8200
+          kv-version: 2
+          profile-separator: '/'

@@ -6,14 +6,15 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.cloud:spring-cloud-config:2.0.0.RELEASE'
+        mavenBom 'org.springframework.cloud:spring-cloud-config:2.0.1.RELEASE'
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE'
     }
 }
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-config-server'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: '2.0.1.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-config-server', version: '2.0.1.RELEASE'
 }
 
 task copyDocker(type: Copy) {
