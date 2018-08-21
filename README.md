@@ -8,7 +8,7 @@ first build the whole project with the following command:
 
 ## Start 3rd party dependencies
 start zookeeper (used by kafka and for service discovery in spring), then kafka and HashiCorp vault.
-* ```docker-compose up -d --build zookeeper kafka vault```
+* ```docker-compose up -d --build zookeeper kafka vault zipkin zipkin-ui```
 
 ## Vault
 Vault needs to be initialized and properties need to be added manually.
@@ -55,6 +55,15 @@ Spring Cloud Config documentation can be found [here](http://cloud.spring.io/spr
 ## Start spring boot/cloud services
 
 * ```docker-compose up -d --build account-registration-service account-balance-service gateway-service```
+
+## Zipkin tracing
+
+All spring cloud project have spring sleuth & zipkin enabled and configured. They are configured to trace 100% of
+the traffic in this poc. You can have a look at the Zipkin UI [here](http://172.20.1.51).
+
+
+Spring Cloud Sleuth documentation can be found [here](http://cloud.spring.io/spring-cloud-static/spring-cloud-sleuth/2.0.1.RELEASE/).
+
 
 ## Postman
 In the projects ```/postman``` folder a postman collection with all necessary ReST calls is available.
