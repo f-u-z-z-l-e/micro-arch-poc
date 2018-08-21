@@ -6,6 +6,33 @@
 	},
 	"item": [
 		{
+			"name": "config-server: get property",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Config-Token",
+						"value": "myroot"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{config-server-host}}/account-registration-service/docker",
+					"host": [
+						"{{config-server-host}}"
+					],
+					"path": [
+						"account-registration-service",
+						"docker"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "gateway: create account",
 			"request": {
 				"method": "POST",
