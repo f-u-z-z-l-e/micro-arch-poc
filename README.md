@@ -45,6 +45,7 @@ you should see the following in the response:
  {
    "name": "vault:account-registration-service",
    "source": {
+     "store.properties.foo": "value from vault",
      "foo": "bar"
    }
  }
@@ -59,3 +60,8 @@ Spring Cloud Config documentation can be found [here](http://cloud.spring.io/spr
 ## Postman
 In the projects ```/postman``` folder a postman collection with all necessary ReST calls is available.
 Feel free to import it and the preconfigured environments into you local postman installation.
+
+## Cleaning up
+You can use docker-compose to remove everything this project started/created on your local docker installation by issuing
+the following command:
+* ```docker-compose down --rmi all```
