@@ -8,7 +8,7 @@ first build the whole project with the following command:
 
 ## Start 3rd party dependencies
 start zookeeper (used by kafka and for service discovery in spring), then kafka and HashiCorp vault.
-* ```docker-compose up --build zookeeper kafka vault```
+* ```docker-compose up -d --build zookeeper kafka vault```
 
 ## Vault
 Vault needs to be initialized and properties need to be added manually.
@@ -28,7 +28,7 @@ HashiCorp Vault documentation can be found [here](https://www.vaultproject.io/do
 Spring Cloud Vault documentation can be found [here](http://cloud.spring.io/spring-cloud-static/spring-cloud-vault/2.0.1.RELEASE/).
 
 ## Spring Cloud Config Server
-* ```docker-compose up --build config-server```
+* ```docker-compose up -d --build config-server```
 
 check if you are able to fetch the configuration from the vault through the config-server:
 * ```curl -X GET http://172.20.1.40:8888/account-registration-service/docker -H "X-Config-Token: myroot"```
@@ -54,7 +54,7 @@ you should see the following in the response:
 Spring Cloud Config documentation can be found [here](http://cloud.spring.io/spring-cloud-static/spring-cloud-config/2.0.1.RELEASE/).
 ## Start spring boot/cloud services
 
-* ```docker-compose up --build account-registration-service account-balance-service gateway-service```
+* ```docker-compose up -d --build account-registration-service account-balance-service gateway-service```
 
 ## Postman
 In the projects ```/postman``` folder a postman collection with all necessary ReST calls is available.
