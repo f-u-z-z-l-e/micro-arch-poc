@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.net.URI;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,6 @@ import static ch.fuzzle.accountregistration.stream.AccountInformation.Status.DIS
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
-@Slf4j
 @RestController
 @RequestMapping("api/v1")
 class AccountController {
