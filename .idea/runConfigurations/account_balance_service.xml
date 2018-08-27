@@ -4,6 +4,8 @@
     <option name="SPRING_BOOT_MAIN_CLASS" value="ch.fuzzle.accountbalance.AccountBalanceServiceApplication" />
     <option name="ACTIVE_PROFILES" value="idea" />
     <option name="ALTERNATIVE_JRE_PATH" />
-    <method />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
   </configuration>
 </component>

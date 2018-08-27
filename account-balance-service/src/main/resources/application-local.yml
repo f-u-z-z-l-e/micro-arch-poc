@@ -27,6 +27,7 @@ spring:
 logging:
   level:
     org.springframework.cloud.zookeeper: INFO
+    ch.fuzzle.accountbalance.gateway.AccountRegistrationClient: DEBUG
 
 management:
   info:
