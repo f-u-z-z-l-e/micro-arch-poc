@@ -31,7 +31,14 @@ services:
       kafka_net:
         ipv4_address: 172.20.1.30
     depends_on:
-    - kafka
+      kafka:
+        condition: service_started
+      logstash:
+        condition: service_healthy
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:25826"
 
   account-registration-service:
     container_name: account-registration-service
@@ -40,7 +47,14 @@ services:
       kafka_net:
         ipv4_address: 172.20.1.31
     depends_on:
-    - kafka
+      kafka:
+        condition: service_started
+      logstash:
+        condition: service_healthy
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:25826"
 
   #  account-registration-service2:
   #    container_name: account-registration-service2
@@ -58,7 +72,14 @@ services:
       kafka_net:
         ipv4_address: 172.20.1.33
     depends_on:
-    - kafka
+      kafka:
+        condition: service_started
+      logstash:
+        condition: service_healthy
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:25826"
 
   config-server:
     container_name: config-server
@@ -78,7 +99,14 @@ services:
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
-    - kafka
+      kafka:
+        condition: service_started
+      logstash:
+        condition: service_healthy
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:25826"
 
   zipkin-ui:
     container_name: zipkin-ui
@@ -89,7 +117,14 @@ services:
     environment:
     - ZIPKIN_BASE_URL=http://zipkin:9411
     depends_on:
-    - zipkin
+      zipkin:
+        condition: service_started
+      logstash:
+        condition: service_healthy
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://127.0.0.1:25826"
 
   vault:
     image: vault:0.10.4
@@ -104,6 +139,63 @@ services:
         ipv4_address: 172.20.1.41
     ports:
     - "8200:8200"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    container_name: elasticsearch
+    hostname: elasticsearch
+    ports:
+    - "9200:9200"
+    - "9300:9300"
+    environment:
+    - "xpack.security.enabled=false"
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - "discovery.type=single-node"
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.61
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.0
+    container_name: kibana
+    hostname: kibana
+    ports:
+    - "5601:5601"
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.62
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.4.0
+    container_name: logstash
+    hostname: logstash
+    ports:
+    - "25826:25826"
+    volumes:
+    - $PWD/elk-config:/elk-config
+    command: logstash -f /elk-config/logstash.config
+    networks:
+      kafka_net:
+        ipv4_address: 172.20.1.63
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
 networks:
   kafka_net:
