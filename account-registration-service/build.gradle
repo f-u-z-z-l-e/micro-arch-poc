@@ -5,19 +5,18 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.cloud:spring-cloud-zookeeper-dependencies:2.0.0.RELEASE'
-        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE'
-        mavenBom 'org.springframework.cloud:spring-cloud-sleuth:2.0.1.RELEASE'
+        mavenBom 'org.springframework.cloud:spring-cloud-zookeeper-dependencies:2.1.1.RELEASE'
+        mavenBom 'org.springframework.cloud:spring-cloud-sleuth:2.1.1.RELEASE'
     }
 }
 
 dependencies {
     compile project(':model')
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: "${springBootVersion}"
 
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: '2.0.1.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: '2.1.2.RELEASE'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-zipkin'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-kafka'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-stream-binder-kafka-streams'

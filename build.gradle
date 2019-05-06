@@ -1,7 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.4.RELEASE'
-//        springBootVersion = '2.1.0.BUILD-SNAPSHOT'
+        springBootVersion = '2.1.4.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -34,7 +33,7 @@ subprojects {
     }
 
     dependencies {
-        compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+        compile group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
     }
 }
 

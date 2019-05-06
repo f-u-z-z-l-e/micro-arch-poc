@@ -5,22 +5,10 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="account-balance-service_main" target="1.8" />
-      <module name="account-balance-service_test" target="1.8" />
-      <module name="account-registration-service_main" target="1.8" />
-      <module name="account-registration-service_test" target="1.8" />
       <module name="account-service_main" target="1.8" />
       <module name="account-service_test" target="1.8" />
       <module name="beta-service_main" target="1.8" />
       <module name="beta-service_test" target="1.8" />
-      <module name="config-server_main" target="1.8" />
-      <module name="config-server_test" target="1.8" />
-      <module name="gateway-service_main" target="1.8" />
-      <module name="gateway-service_test" target="1.8" />
-      <module name="micro-arch-poc_main" target="1.8" />
-      <module name="micro-arch-poc_test" target="1.8" />
-      <module name="model_main" target="1.8" />
-      <module name="model_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
