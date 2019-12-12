@@ -16,15 +16,15 @@ buildscript {
 plugins {
     id 'java'
     id 'idea'
+    id "ch.fuzzle.gradle.semver" version "0.3.2"
 }
 
 subprojects {
-    version = '0.0.1'
-
     sourceCompatibility = 1.8
 
     apply plugin: 'java'
     apply plugin: 'idea'
+    apply plugin: 'ch.fuzzle.gradle.semver'
     apply plugin: 'io.spring.dependency-management'
 
     repositories {
@@ -34,13 +34,14 @@ subprojects {
     }
 
     dependencies {
-        compile group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+        compileOnly "org.projectlombok:lombok:1.18.10"
+        annotationProcessor "org.projectlombok:lombok:1.18.10"
+//        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    }
+
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
     }
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.9'
-}
-
-task prepareDocker
-prepareDocker.dependsOn('account-registration-service:copyDocker', 'account-balance-service:copyDocker', 'config-server:copyDocker', 'gateway-service:copyDocker')

@@ -1,3 +1,7 @@
+plugins {
+    id "ch.fuzzle.gradle.docker-plugin" version "0.1.1"
+}
+
 group = 'ch.fuzzle.accountbalance'
 
 apply plugin: 'org.springframework.boot'
@@ -36,13 +40,3 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('io.projectreactor:reactor-test')
 }
-
-task copyDocker(type: Copy) {
-    from bootJar.outputs
-    from "docker"
-
-    into "$buildDir/docker"
-}
-
-copyDocker.dependsOn bootJar
-copyDocker.mustRunAfter bootJar
