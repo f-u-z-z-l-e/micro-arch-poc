@@ -1,6 +1,6 @@
 FROM openjdk:8
-
-COPY account-registration-service-0.0.1.jar app.jar
+ARG ARTIFACT_FILE
+COPY "${ARTIFACT_FILE}" app.jar
 ENV JAVA_OPTS="-Xmx1g"
 ENV SPRING_PROFILE="docker"
 ENV SPRING_LABEL="24aac9733b15691b63d58646521bc027a34e"
